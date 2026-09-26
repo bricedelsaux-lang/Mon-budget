@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#111827">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg">
+<title>Mon Budget</title>
+<style>
+:root{--bg:#f5f7fb;--card:#fff;--ink:#111827;--muted:#6b7280;--line:#e5e7eb;--blue:#2563eb;--green:#16a34a;--red:#dc2626;--amber:#d97706}
+*{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+button,input,select{font:inherit}.wrap{max-width:1100px;margin:auto;padding:18px 18px 96px}.top{display:flex;gap:12px;align-items:center;justify-content:space-between;margin-bottom:18px}.title{font-size:27px;font-weight:850}.sub{color:var(--muted);font-size:13px}.month{border:1px solid var(--line);background:white;border-radius:12px;padding:10px 12px}
+.tabs{display:flex;gap:8px;overflow:auto;margin-bottom:16px}.tabs button{white-space:nowrap;border:1px solid var(--line);background:white;padding:10px 13px;border-radius:999px;color:var(--muted);font-weight:700}.tabs button.active{background:var(--ink);color:#fff;border-color:var(--ink)}
+.view{display:none}.view.active{display:block}.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:17px;box-shadow:0 3px 14px rgba(17,24,39,.035)}.label{font-size:12px;color:var(--muted);margin-bottom:6px}.value{font-size:24px;font-weight:850}.green{color:var(--green)}.red{color:var(--red)}
+.two{display:grid;grid-template-columns:1.2fr .8fr;gap:12px;margin-top:12px}.section-title{font-size:17px;font-weight:800;margin:0 0 14px}.row{display:flex;gap:10px;align-items:center}.stack{display:grid;gap:10px}.form{display:grid;grid-template-columns:1fr 1.4fr 1fr 1fr 1fr auto;gap:9px}.form3{display:grid;grid-template-columns:1fr 1fr auto;gap:9px}input,select{width:100%;border:1px solid var(--line);border-radius:12px;padding:11px 12px;background:white;color:var(--ink)}.btn{border:0;background:var(--ink);color:white;border-radius:12px;padding:11px 14px;font-weight:800;cursor:pointer}.btn.ghost{background:#eef0f4;color:var(--ink)}.btn.redbtn{background:#fee2e2;color:#991b1b}.mini{padding:7px 9px;font-size:12px}
+.list{display:grid;gap:8px}.expense{display:grid;grid-template-columns:90px 1fr 120px 110px 40px;gap:10px;align-items:center;padding:11px 0;border-bottom:1px solid var(--line)}.expense:last-child{border-bottom:0}.pill{display:inline-block;background:#eef2ff;border-radius:999px;padding:5px 8px;font-size:12px}.amount{text-align:right;font-weight:800}.muted{color:var(--muted)}.empty{text-align:center;color:var(--muted);padding:24px 8px}.big-add{position:fixed;right:22px;bottom:24px;width:58px;height:58px;border-radius:50%;border:0;background:var(--ink);color:#fff;font-size:30px;box-shadow:0 8px 25px rgba(0,0,0,.22);z-index:5}
+.progress-wrap{display:grid;gap:15px}.proghead{display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px}.progress{height:9px;background:#eceff3;border-radius:99px;overflow:hidden}.bar{height:100%;background:var(--blue);border-radius:99px}.bar.over{background:var(--red)}
+.donut-wrap{display:flex;align-items:center;gap:18px;flex-wrap:wrap}.donut{width:180px;height:180px;border-radius:50%;position:relative;background:#e5e7eb}.donut:after{content:"";position:absolute;inset:30px;background:white;border-radius:50%}.legend{display:grid;gap:7px;font-size:13px}.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:7px;background:#9ca3af}.notice{background:#eff6ff;border:1px solid #bfdbfe;padding:12px;border-radius:12px;font-size:13px;color:#1e3a8a}.setting{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}.setting:last-child{border-bottom:0}.danger{background:#fff1f2;border-color:#fecdd3}.summary-line{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line)}
+.modal{position:fixed;inset:0;background:rgba(17,24,39,.5);display:none;align-items:flex-end;justify-content:center;z-index:20}.modal.open{display:flex}.sheet{background:#fff;width:min(680px,100%);border-radius:22px 22px 0 0;padding:20px;max-height:88vh;overflow:auto}.sheet-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px}.close{border:0;background:#eef0f4;border-radius:50%;width:36px;height:36px;font-size:18px}
+@media(max-width:850px){.grid4{grid-template-columns:1fr 1fr}.two{grid-template-columns:1fr}.form{grid-template-columns:1fr 1fr}.expense{grid-template-columns:78px 1fr 95px}.expense .cat{display:none}.expense .acct{display:none}}
+@media(max-width:520px){.wrap{padding:14px 12px 90px}.top{align-items:flex-start}.title{font-size:23px}.grid4{grid-template-columns:1fr 1fr}.card{padding:14px}.value{font-size:20px}.form,.form3{grid-template-columns:1fr}.tabs{margin-left:-2px}.expense{grid-template-columns:72px 1fr 82px 34px;gap:6px}.expense .cat,.expense .acct{display:none}.amount{font-size:14px}.donut{width:150px;height:150px}.big-add{bottom:18px;right:18px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><div><div class="title">💶 Mon Budget</div><div class="sub">Dépenses, budgets et épargne au même endroit</div></div><input id="monthPicker" class="month" type="month"></div>
+  <div class="tabs">
+    <button class="active" data-view="dashboard">Accueil</button><button data-view="expenses">Dépenses</button><button data-view="budgets">Budgets</button><button data-view="recurring">Récurrentes</button><button data-view="settings">Réglages</button>
+  </div>
+
+  <section id="dashboard" class="view active">
+    <div class="grid4">
+      <div class="card"><div class="label">Revenus</div><div id="kIncome" class="value">0 €</div></div>
+      <div class="card"><div class="label">Dépenses</div><div id="kExpenses" class="value red">0 €</div></div>
+      <div class="card"><div class="label">Solde du mois</div><div id="kBalance" class="value green">0 €</div></div>
+      <div class="card"><div class="label">Taux d'épargne</div><div id="kRate" class="value">0 %</div></div>
+    </div>
+    <div class="two">
+      <div class="card"><h3 class="section-title">Répartition des dépenses</h3><div class="donut-wrap"><div id="donut" class="donut"></div><div id="legend" class="legend"></div></div></div>
+      <div class="card"><h3 class="section-title">Résumé du mois</h3><div id="monthSummary"></div></div>
+    </div>
+    <div class="card" style="margin-top:12px"><h3 class="section-title">Dernières dépenses</h3><div id="recentList"></div></div>
+  </section>
+
+  <section id="expenses" class="view">
+    <div class="card"><h3 class="section-title">Ajouter une dépense</h3><div id="expenseForm" class="form"></div></div>
+    <div class="card" style="margin-top:12px"><div class="row" style="justify-content:space-between"><h3 class="section-title" style="margin:0">Dépenses du mois</h3><select id="accountFilter" style="max-width:180px"></select></div><div id="expenseList" class="list"></div></div>
+  </section>
+
+  <section id="budgets" class="view">
+    <div class="card"><h3 class="section-title">Budgets par catégorie</h3><div id="budgetEditor" class="stack"></div></div>
+    <div class="card" style="margin-top:12px"><h3 class="section-title">Consommation du budget</h3><div id="budgetProgress" class="progress-wrap"></div></div>
+  </section>
+
+  <section id="recurring" class="view">
+    <div class="card"><h3 class="section-title">Nouvelle dépense récurrente</h3><div id="recurringForm" class="form"></div><div class="notice" style="margin-top:12px">Les dépenses récurrentes sont ajoutées automatiquement une fois par mois, à l'ouverture de l'application.</div></div>
+    <div class="card" style="margin-top:12px"><h3 class="section-title">Dépenses récurrentes actives</h3><div id="recurringList"></div></div>
+  </section>
+
+  <section id="settings" class="view">
+    <div class="two">
+      <div class="card"><h3 class="section-title">Revenus du mois</h3><div class="form3"><input id="incomeInput" type="number" min="0" step="0.01" placeholder="Revenus nets du mois"><button class="btn" id="saveIncome">Enregistrer</button></div></div>
+      <div class="card"><h3 class="section-title">Comptes</h3><div id="accountsList"></div><div class="form3" style="margin-top:10px"><input id="newAccount" placeholder="Ex. Carte pro"><button class="btn" id="addAccount">Ajouter</button></div></div>
+    </div>
+    <div class="card" style="margin-top:12px"><h3 class="section-title">Sauvegarde</h3><div class="notice">Les données sont stockées sur cet appareil. Exportez régulièrement une sauvegarde pour pouvoir les restaurer sur un autre téléphone.</div><div class="row" style="margin-top:12px;flex-wrap:wrap"><button class="btn" id="exportBtn">Exporter mes données</button><label class="btn ghost">Importer une sauvegarde<input id="importInput" type="file" accept="application/json" hidden></label></div></div>
+    <div class="card danger" style="margin-top:12px"><h3 class="section-title">Réinitialiser</h3><button class="btn redbtn" id="resetBtn">Effacer toutes les données</button></div>
+  </section>
+</div>
+<button class="big-add" id="quickAdd" aria-label="Ajouter une dépense">+</button>
+<div class="modal" id="modal"><div class="sheet"><div class="sheet-head"><h3 class="section-title" style="margin:0">Ajouter une dépense</h3><button class="close" id="closeModal">×</button></div><div id="quickForm" class="stack"></div></div></div>
+<script>
+const baseCategories=["Logement","Courses","Restaurants","Voiture","Crédits","Loisirs","Vacances","Enfant","Abonnements","Épargne","Autres"];
+const today=new Date(), todayISO=today.toISOString().slice(0,10), currentMonth=todayISO.slice(0,7);
+const fmt=n=>new Intl.NumberFormat('fr-FR',{style:'currency',currency:'EUR'}).format(Number(n)||0);
+const uid=()=>crypto.randomUUID?crypto.randomUUID():Date.now()+Math.random().toString(16).slice(2);
+const defaults={version:2,incomes:{},expenses:[],budgets:Object.fromEntries(baseCategories.map(c=>[c,0])),accounts:["Personnel","Commun","Locatif"],recurring:[]};
+let db=JSON.parse(localStorage.getItem('monBudgetV2')||'null')||structuredClone(defaults);
+if(!db.accounts) db.accounts=["Personnel","Commun","Locatif"]; if(!db.recurring) db.recurring=[]; if(!db.budgets) db.budgets={};
+const save=()=>localStorage.setItem('monBudgetV2',JSON.stringify(db));
+const month=()=>document.getElementById('monthPicker').value||currentMonth;
+const catOptions=()=>baseCategories.map(c=>`<option>${c}</option>`).join('');
+const acctOptions=()=>db.accounts.map(a=>`<option>${a}</option>`).join('');
+function addExpenseForm(target,prefix='e'){
+ target.innerHTML=`<input id="${prefix}Date" type="date" value="${todayISO}"><input id="${prefix}Label" placeholder="Libellé"><select id="${prefix}Category">${catOptions()}</select><select id="${prefix}Account">${acctOptions()}</select><input id="${prefix}Amount" type="number" min="0" step="0.01" placeholder="Montant €"><button class="btn" id="${prefix}Add">Ajouter</button>`;
+ document.getElementById(prefix+'Add').onclick=()=>{const date=document.getElementById(prefix+'Date').value,label=document.getElementById(prefix+'Label').value.trim(),category=document.getElementById(prefix+'Category').value,account=document.getElementById(prefix+'Account').value,amount=Number(document.getElementById(prefix+'Amount').value);if(!date||!label||!amount){alert('Renseignez la date, le libellé et le montant.');return}db.expenses.push({id:uid(),date,label,category,account,amount,source:'manual'});save();document.getElementById('monthPicker').value=date.slice(0,7);render(); if(prefix==='q') modal.classList.remove('open');document.getElementById(prefix+'Label').value='';document.getElementById(prefix+'Amount').value='';};
+}
+function monthlyExpenses(){return db.expenses.filter(e=>e.date.startsWith(month()));}
+function byCategory(exps=monthlyExpenses()){const o=Object.fromEntries(baseCategories.map(c=>[c,0]));exps.forEach(e=>o[e.category]=(o[e.category]||0)+Number(e.amount));return o}
+function applyRecurring(){const y=today.getFullYear(),m=today.getMonth()+1;db.recurring.filter(r=>r.active!==false).forEach(r=>{const day=Math.min(Number(r.day)||1,new Date(y,m,0).getDate());const date=`${y}-${String(m).padStart(2,'0')}-${String(day).padStart(2,'0')}`;const key=`${r.id}-${date.slice(0,7)}`;if(!db.expenses.some(e=>e.recurringKey===key)){db.expenses.push({id:uid(),date,label:r.label,category:r.category,account:r.account,amount:Number(r.amount),source:'recurring',recurringKey:key})}});save()}
+function render(){applyRecurring(); const exps=monthlyExpenses();const income=Number(db.incomes[month()]||0),total=exps.reduce((s,e)=>s+Number(e.amount),0),bal=income-total,rate=income?bal/income*100:0;kIncome.textContent=fmt(income);kExpenses.textContent=fmt(total);kBalance.textContent=fmt(bal);kBalance.className='value '+(bal>=0?'green':'red');kRate.textContent=rate.toFixed(1)+' %';incomeInput.value=income||'';renderLists(exps);renderBudget();renderDonut(exps);renderAccounts();renderRecurring();}
+function renderLists(exps){const sorted=[...exps].sort((a,b)=>b.date.localeCompare(a.date));recentList.innerHTML=sorted.length?sorted.slice(0,5).map(rowHTML).join(''):'<div class="empty">Aucune dépense ce mois-ci.</div>';accountFilter.innerHTML='<option value="">Tous les comptes</option>'+db.accounts.map(a=>`<option ${accountFilter.value===a?'selected':''}>${a}</option>`).join('');const filtered=accountFilter.value?sorted.filter(e=>e.account===accountFilter.value):sorted;expenseList.innerHTML=filtered.length?filtered.map(e=>rowHTML(e,true)).join(''):'<div class="empty">Aucune dépense.</div>';monthSummary.innerHTML=`<div class="summary-line"><span>Dépenses enregistrées</span><strong>${exps.length}</strong></div><div class="summary-line"><span>Dépense moyenne</span><strong>${fmt(exps.length?exps.reduce((s,e)=>s+Number(e.amount),0)/exps.length:0)}</strong></div><div class="summary-line"><span>Plus gros poste</span><strong>${topCategory(exps)}</strong></div>`}
+function rowHTML(e,del=false){return `<div class="expense"><div class="muted">${e.date.slice(8,10)}/${e.date.slice(5,7)}</div><div><strong>${escapeHtml(e.label)}</strong><div class="muted" style="font-size:11px">${escapeHtml(e.account||'')}</div></div><div class="cat"><span class="pill">${e.category}</span></div><div class="amount">${fmt(e.amount)}</div>${del?`<button class="btn ghost mini" onclick="removeExpense('${e.id}')">×</button>`:''}</div>`}
+window.removeExpense=id=>{db.expenses=db.expenses.filter(e=>e.id!==id);save();render()};
+function topCategory(exps){const x=Object.entries(byCategory(exps)).sort((a,b)=>b[1]-a[1])[0];return x&&x[1]>0?x[0]:'—'}
+function renderBudget(){budgetEditor.innerHTML=baseCategories.map(c=>`<div class="setting"><span>${c}</span><input style="max-width:150px" type="number" min="0" step="10" value="${Number(db.budgets[c]||0)}" onchange="setBudget('${c}',this.value)"></div>`).join('');const spent=byCategory();budgetProgress.innerHTML=baseCategories.map(c=>{const b=Number(db.budgets[c]||0),s=spent[c]||0,p=b?Math.min(100,s/b*100):0;return `<div><div class="proghead"><span>${c}</span><strong>${fmt(s)} / ${fmt(b)}</strong></div><div class="progress"><div class="bar ${b&&s>b?'over':''}" style="width:${p}%"></div></div></div>`}).join('')}
+window.setBudget=(c,v)=>{db.budgets[c]=Number(v)||0;save();render()};
+function renderDonut(exps){const vals=Object.entries(byCategory(exps)).filter(x=>x[1]>0).sort((a,b)=>b[1]-a[1]);const total=vals.reduce((s,x)=>s+x[1],0);if(!total){donut.style.background='#e5e7eb';legend.innerHTML='<span class="muted">Aucune dépense à afficher.</span>';return}let start=0;const colors=['#2563eb','#16a34a','#d97706','#7c3aed','#dc2626','#0891b2','#4f46e5','#be123c','#65a30d','#9333ea','#64748b'];const stops=[];vals.forEach((x,i)=>{const end=start+x[1]/total*100;stops.push(`${colors[i%colors.length]} ${start}% ${end}%`);start=end});donut.style.background=`conic-gradient(${stops.join(',')})`;legend.innerHTML=vals.slice(0,7).map((x,i)=>`<div><i style="background:${colors[i%colors.length]}"></i>${x[0]} — ${fmt(x[1])}</div>`).join('')}
+function renderAccounts(){accountsList.innerHTML=db.accounts.map((a,i)=>`<div class="setting"><strong>${escapeHtml(a)}</strong>${db.accounts.length>1?`<button class="btn ghost mini" onclick="deleteAccount(${i})">Supprimer</button>`:''}</div>`).join('')}
+window.deleteAccount=i=>{const a=db.accounts[i];if(db.expenses.some(e=>e.account===a)||db.recurring.some(r=>r.account===a)){alert('Ce compte est utilisé par des dépenses. Modifiez-les avant de le supprimer.');return}db.accounts.splice(i,1);save();setupForms();render()};
+function renderRecurring(){recurringList.innerHTML=db.recurring.length?db.recurring.map(r=>`<div class="setting"><div><strong>${escapeHtml(r.label)}</strong><div class="muted" style="font-size:12px">${r.category} · ${r.account} · le ${r.day} · ${fmt(r.amount)}</div></div><button class="btn ghost mini" onclick="deleteRecurring('${r.id}')">Supprimer</button></div>`).join(''):'<div class="empty">Aucune dépense récurrente.</div>'}
+window.deleteRecurring=id=>{db.recurring=db.recurring.filter(r=>r.id!==id);save();render()};
+function setupRecurringForm(){recurringForm.innerHTML=`<input id="rLabel" placeholder="Ex. Loyer"><select id="rCategory">${catOptions()}</select><select id="rAccount">${acctOptions()}</select><input id="rAmount" type="number" min="0" step="0.01" placeholder="Montant €"><input id="rDay" type="number" min="1" max="31" value="1" placeholder="Jour"><button class="btn" id="rAdd">Ajouter</button>`;rAdd.onclick=()=>{const label=rLabel.value.trim(),amount=Number(rAmount.value),day=Math.max(1,Math.min(31,Number(rDay.value)||1));if(!label||!amount){alert('Renseignez le libellé et le montant.');return}db.recurring.push({id:uid(),label,category:rCategory.value,account:rAccount.value,amount,day,active:true});save();rLabel.value='';rAmount.value='';render()}}
+function setupForms(){addExpenseForm(expenseForm,'e');addExpenseForm(quickForm,'q');setupRecurringForm();}
+function escapeHtml(s){return String(s).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
+monthPicker.value=currentMonth;setupForms();
+document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tabs button').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));document.getElementById(b.dataset.view).classList.add('active');render()});
+monthPicker.onchange=render;accountFilter.onchange=render;saveIncome.onclick=()=>{db.incomes[month()]=Number(incomeInput.value)||0;save();render()};
+addAccount.onclick=()=>{const a=newAccount.value.trim();if(!a)return;if(db.accounts.includes(a)){alert('Ce compte existe déjà.');return}db.accounts.push(a);newAccount.value='';save();setupForms();render()};
+quickAdd.onclick=()=>modal.classList.add('open');closeModal.onclick=()=>modal.classList.remove('open');modal.onclick=e=>{if(e.target===modal)modal.classList.remove('open')};
+exportBtn.onclick=()=>{const blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=`mon-budget-sauvegarde-${todayISO}.json`;a.click();URL.revokeObjectURL(url)};
+importInput.onchange=async e=>{const f=e.target.files[0];if(!f)return;try{const x=JSON.parse(await f.text());if(!x.expenses||!x.incomes)throw new Error();db=x;save();setupForms();render();alert('Sauvegarde importée.')}catch{alert('Fichier de sauvegarde invalide.')}e.target.value=''};
+resetBtn.onclick=()=>{if(confirm('Effacer toutes les données de Mon Budget ?')){db=structuredClone(defaults);save();setupForms();render()}};
+if('serviceWorker' in navigator) window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+render();
+</script>
+</body>
+</html>
