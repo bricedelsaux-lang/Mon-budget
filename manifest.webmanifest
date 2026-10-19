@@ -8,6 +8,12 @@
   "theme_color": "#111827",
   "description": "Application personnelle de suivi des dépenses mensuelles.",
   "icons": [
-    {"src":"icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}
-  ]
+  {
+    "src": "./a_clean_modern_app_icon_logo_style_graphic_on_a.png",
+    "sizes": "1024x1024",
+    "type": "image/png",
+    "purpose": "any"
+  }
+]
+
 }
