@@ -1,19 +1,13 @@
-
 {
-  "name": "Mon budget mensuel",
-  "short_name": "Mon budget",
+  "name": "Mon Budget Mensuel",
+  "short_name": "Mon Budget",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
   "background_color": "#f6f7fb",
   "theme_color": "#111827",
-  "description": "Application personnelle de suivi des dépenses",
+  "description": "Application personnelle de suivi des dépenses mensuelles.",
   "icons": [
-    {
-      "src": "./a_clean_modern_app_icon_logo_style_graphic_on_a.png",
-      "sizes": "1024x1024",
-      "type": "image/png",
-      "purpose": "any"
-    }
+    {"src":"icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}
   ]
 }
