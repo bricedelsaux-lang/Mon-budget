@@ -1,5 +1,5 @@
-const CACHE = 'mon-budget-v2-cache-v17';
-const ASSETS = ['./','./index.html','./manifest.webmanifest','./icon.svg'];
+const CACHE = 'mon-budget-v2-cache-v18';
+const ASSETS = ['./','./index.html','./manifest.webmanifest','./budget-icon-192-v2.png','./budget-icon-512-v2.png'];
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(ASSETS)));
   self.skipWaiting();
